@@ -12,7 +12,7 @@ def email_alert( subject, body, to ):
     
     # use existing gmail account
     user = "davidliljewall96@gmail.com"
-    password = "qmptnzejmrkbjndd" # provided Google app password
+    password = "qmptnzejmrkbjndd" # provided Google app password (UNIQUE FOR THIS PROJECT)
     msg[ 'from' ] = user
     
     # login to server, use TLS inspection, login, then send desired message
@@ -24,6 +24,20 @@ def email_alert( subject, body, to ):
     server.quit()
     
     
-# If main program running, run the code above. Won't run if imported
+    
+#* If main program running, run the code above. Won't run if imported
 if __name__=='__main__':
-    email_alert( "Hey", "Hello world", "dliljewall@protonmail.com" )
+    
+    
+    # create variables for email sending
+    print( "Enter the desired recipient:" )
+    recipient = input()
+    
+    print( "Enter the subject line:" )
+    sub = input()
+    
+    print( "Enter the Email body text:" )
+    bod = input()
+    
+    # call variables and send email
+    email_alert( sub, bod, recipient )
