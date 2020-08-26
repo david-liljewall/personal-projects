@@ -1,6 +1,7 @@
 
 import smtplib
 from email.message import EmailMessage
+import imghdr
 
 
 def email_alert( subject, body, to ):
@@ -17,16 +18,26 @@ def email_alert( subject, body, to ):
     password = "qmptnzejmrkbjndd" # provided Google app password (UNIQUE FOR THIS PROJECT)
     msg[ 'from' ] = user
     
-    # # login to server, use TLS inspection, login, then send desired message
-    # server = smtplib.SMTP( "smtp.gmail.com", 587 )
-    # server.starttls()
-    # server.login( user, password )
-    # server.send_message( msg )
     
-    server = smtplib.SMTP_SSL( 'smpt.gmail.com', 465 )
+    # Attach Files
+    files = [ 'mars_terraformed.jpg', 'attach_file.txt' ]
+    
+    for file in files:
+        # Loop through files list created above
+        with open( file, 'rb' ) as f:
+            file_data = f.read()
+            file_name = f.name
+
+    msg.add_attachment( file_data, maintype='application', subtype='octet-stream', filename=file_name)
+    
+    
+    
+    # login to server, use TLS inspection, login, then send desired message
+    server = smtplib.SMTP( "smtp.gmail.com", 587 )
+    server.starttls()
     server.login( user, password )
     server.send_message( msg )
-    
+
     
     # quit server
     server.quit()
@@ -44,10 +55,9 @@ if __name__=='__main__':
     
     print( "Enter the subject line:" )
     sub = input()
-    
-    with open( 'Mars.jpg', 'rb' ) as file:
-        file_data = file.read()
 
+    print( "Enter the email body:" )
+    bod = input()
     
     # call variables and send email
-    email_alert( sub, "See attached file" , recipient )
+    email_alert( sub, bod, recipient )
